@@ -160,33 +160,37 @@ void printCheck(double grossPay, double regularHours, double overtimeHours, doub
     cout << right << setw(16) << "Net Pay: " << setw(8) << netPay << endl;
 }
 
-void streamPayrollHeader(stringstream &sscout)
+void displayPayrollHeader()
 {
-    sscout << left << setw(15) << "Name" << " Hours " << " OT Hours " << "  Rate  " << " OT Rate " << " Regular Pay " << " OT Pay " << " Gross Pay "
+    cout << left << setw(15) << "Name" << " Hours " << " OT Hours " << "  Rate  " << " OT Rate " << " Regular Pay " << " OT Pay " << " Gross Pay "
            << "Fed Tax " << " FICA SSN " << " FICA Med " << " Net Pay " << endl;
-    sscout << fixed << showpoint << setprecision(2);
+    cout << fixed << showpoint << setprecision(2);
 }
 
-void streamPayroll(stringstream &sscout, string name, double grossPay, double regularHours, double overtimeHours, double regularRate,
-                   double overtimeRate, double regularPay, double overtimePay, double fitTax, double ficaSSNTax, double ficaMEDTax, double netPay)
-{
-    sscout<<left<< setw(15) << name;
+void displayPayroll(const string name[], const double grossPay[], const double regularHours[],
+                    const double overtimeHours[], const double regularRate[], const double overtimeRate[],
+                    const double regularPay[], const double overtimePay[], const double fitTax[],
+                    const double ficaSSNTax[], const double ficaMEDTax[], const double netPay[],
+                    int listSize) {
 
-    regularHours > 0 ? sscout << right << setw(6) << regularHours : sscout << setw(6) << " ";
-    overtimeHours > 0 ? sscout << right << setw(10) << overtimeHours : sscout << setw(10) << " ";
-    regularRate > 0 ? sscout << right << setw(8) << regularRate : sscout << setw(8) << " ";
-    overtimeRate > 0 ? sscout << right << setw(9) << overtimeRate : sscout << setw(9) << " ";
+    for (int i = 0; i < listSize; i++)
+    {
+        cout << left << setw(15) << name[i];
+        regularHours[i] > 0 ? cout << right << setw(6) << regularHours[i] : cout << setw(6) << " ";
+        overtimeHours[i] > 0 ? cout << right << setw(10) << overtimeHours[i] : cout << setw(10) << " ";
+        regularRate[i] > 0 ? cout << right << setw(8) << regularRate[i] : cout << setw(8) << " ";
+        overtimeRate[i] > 0 ? cout << right << setw(9) << overtimeRate[i] : cout << setw(9) << " ";
 
-    regularPay > 0 ? sscout << right << setw(13) << regularPay : sscout<<setw(13)<<" ";
+        regularPay[i] > 0 ? cout << right << setw(13) << regularPay[i] : cout << setw(13) << " ";
 
-    overtimePay > 0 ? sscout << right << setw(8) << overtimePay : sscout << setw(8) << " ";
+        overtimePay[i] > 0 ? cout << right << setw(8) << overtimePay[i] : cout << setw(8) << " ";
 
-    sscout << right << setw(10) << grossPay
-           << right << setw(9) << fitTax
-           << right << setw(11) << ficaSSNTax
-           << right << setw(10) << ficaMEDTax
-           << right << setw(9) << netPay<<endl;
-
+        cout << right << setw(10) << grossPay[i]
+             << right << setw(9) << fitTax[i]
+             << right << setw(11) << ficaSSNTax[i]
+             << right << setw(10) << ficaMEDTax[i]
+             << right << setw(9) << netPay[i] << endl;
+    }
 }
 
 bool isValidCategory(char chosenCategory)

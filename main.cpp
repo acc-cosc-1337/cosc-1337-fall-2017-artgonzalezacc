@@ -1,32 +1,35 @@
 #include <iostream>
 #include <string>
-#include <sstream>
 #include "Payroll.h"
 
 using namespace std;
 
 int main()
 {
-    stringstream ss;
-    string name;
+    const int SIZE = 3;
+    string name[SIZE];
+    double totalHours = 0;
+    double  regularRate[SIZE], overTimeRate[SIZE], grossPay[SIZE],
+            regularHours[SIZE], regularPay[SIZE], overtimeHours[SIZE], overTimePay[SIZE],
+            fitTax[SIZE], ficaSSNTax[SIZE], ficaMEDTax[SIZE], netPay[SIZE];
+    char category[SIZE], choice;
+    int indx = 0;
 
-    double totalHours = 0, regularRate = 0, overTimeRate = 0, grossPay, regularHours = 0, overtimeHours = 0,
-            fitTax, ficaSSNTax, ficaMEDTax, netPay;
-    char category, choice;
-
-    streamPayrollHeader(ss);
     do
     {
+        totalHours = 0, regularRate[indx] = 0, overTimeRate[indx] = 0,  regularHours[indx] = 0,
+        overtimeHours[indx] = 0, overTimePay[indx];
+
         cout << "Enter employee Name: ";
-        getline(cin, name);
+        getline(cin, name[indx]);
 
         do
         {
             cout << "Enter employee category h or s: ";
-            cin >> category;
-        } while(! (isValidCategory(category)));
+            cin >> category[indx];
+        } while(! (isValidCategory(category[indx])));
 
-        if (int(category) == hourly)
+        if (int(category[indx]) == hourly)
         {
             do
             {
@@ -37,14 +40,16 @@ int main()
             do
             {
                 cout << "Enter hourly rate [0-50]: ";
-                cin >> regularRate;
-            } while (!(isValidRegularRate(regularRate)));
+                cin >> regularRate[indx];
+            } while (!(isValidRegularRate(regularRate[indx])));
 
-            regularHours = getRegularHours(totalHours);
-            overtimeHours = getOvertimeHours(totalHours);
-            grossPay = getGrossPay(regularHours, overtimeHours, regularRate);
+            regularHours[indx] = getRegularHours(totalHours);
+            regularPay[indx] = regularHours[indx] * regularRate[indx];
+            overtimeHours[indx] = getOvertimeHours(totalHours);
+            overTimePay[indx] = getOvertimeRate(regularRate[indx]) * overtimeHours[indx];
+            grossPay[indx] = getGrossPay(regularHours[indx], overtimeHours[indx], regularRate[indx]);
         }
-        else if (int(category) == salary)
+        else if (int(category[indx]) == salary)
         {
             double salary = 0;
 
@@ -54,26 +59,23 @@ int main()
                 cin >> salary;
             }
 
-            grossPay = getGrossPay(salary);
+            grossPay[indx] = getGrossPay(salary);
         }
 
-        fitTax = getFIT(grossPay);
-        ficaSSNTax = getFICASSN(grossPay);
-        ficaMEDTax = getFICAMED(grossPay);
-        netPay = getNetPay(grossPay, fitTax, ficaSSNTax, ficaMEDTax);
-
-        streamPayroll(ss, name, grossPay, regularHours, overtimeHours, regularRate, overTimeRate, regularRate * regularHours,
-                      getOvertimeRate(regularRate) * overtimeHours, fitTax, ficaSSNTax, ficaMEDTax, netPay);
+        fitTax[indx] = getFIT(grossPay[indx]);
+        ficaSSNTax[indx] = getFICASSN(grossPay[indx]);
+        ficaMEDTax[indx] = getFICAMED(grossPay[indx]);
+        netPay[indx] = getNetPay(grossPay[indx], fitTax[indx], ficaSSNTax[indx], ficaMEDTax[indx]);
 
         cout << "Enter y for another record: ";
         cin >> choice;
         cin.ignore();
-
-        totalHours = 0, regularRate = 0, overTimeRate = 0, grossPay, regularHours = 0, overtimeHours = 0;
-
+        indx++;
     } while (choice == 'y');
 
-    cout << ss.str();
+    displayPayrollHeader();
+    displayPayroll(name, grossPay, regularHours, overtimeHours, regularRate, overTimeRate, regularPay,
+                   overTimePay, fitTax, ficaSSNTax, ficaMEDTax, netPay, SIZE);
 
     return 0;
 }

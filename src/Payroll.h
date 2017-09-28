@@ -20,9 +20,11 @@ double getOvertimeRate(double hourlyRate);
 void printCheck(double grossPay, double regularHours, double overtimeHours, double hourlyRate,
                 double overTimeRate, double ficaTax,	double ficaSSNTax, double ficaMEDTax, double netPay);
 
-void streamPayrollHeader(stringstream  &sscout );
-void streamPayroll(stringstream &sscout, string name, double grossPay, double regularHours, double overtimeHours, double regularRate,
-                   double overtimeRate, double regularPay, double overtimePay, double fitTax, double ficaSSNTax, double ficaMEDTax, double netPay);
+void displayPayrollHeader();
+void displayPayroll(const string name[], const double grossPay[], const double regularHours[],
+                    const double overtimeHours[], const double regularRate[], const double overtimeRate[],
+                    const double regularPay[], const double overtimePay[], const double fitTax[],
+                    const double ficaSSNTax[], const double ficaMEDTax[], const double netPay[], int listSize);
 
 bool isValidCategory(char chosenCategory);
 bool isValidHours(double totalHours);
