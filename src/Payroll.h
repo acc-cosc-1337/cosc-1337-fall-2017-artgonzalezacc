@@ -16,15 +16,19 @@ double getFICASSN(double grossPay);
 double getFICAMED(double grossPay);
 double getNetPay(double grossPay, double fitTax, double  ficaSSN, double ficaMED);
 double getOvertimeRate(double hourlyRate);
-
-void printCheck(double grossPay, double regularHours, double overtimeHours, double hourlyRate,
-                double overTimeRate, double ficaTax,	double ficaSSNTax, double ficaMEDTax, double netPay);
-
 void displayPayrollHeader();
-void displayPayroll(const string name[], const double grossPay[], const double regularHours[],
-                    const double overtimeHours[], const double regularRate[], const double overtimeRate[],
-                    const double regularPay[], const double overtimePay[], const double fitTax[],
-                    const double ficaSSNTax[], const double ficaMEDTax[], const double netPay[], int listSize);
+void displayPayroll(int index, int grossPayIndex);
+
+void displayRecords();
+
+void addRecord(const string name, const double grossPay, const double regularHours,
+               const double overtimeHours, const double regularRate, const double overTimeRate,
+               const double regularPay, const double overTimePay, const double fitTax,
+               const double ficaSSNTax, const double ficaMEDTax, double const netPay);
+
+int linearSearch(string name);
+void displaySearchResult(string name);
+void sortRecords();
 
 bool isValidCategory(char chosenCategory);
 bool isValidHours(double totalHours);
